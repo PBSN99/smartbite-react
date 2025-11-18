@@ -1,59 +1,43 @@
-import RestroCard from "./RestroCard";
-import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
-import {Link} from "react-router-dom"
+import RestroCard from "./RestroCard";
+import { Link } from "react-router-dom";
+import useListOfRestaurants from "../utils/useListOfRestaurants";
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
-  const [listOfRestaurants, setListOfRestaurants] = useState([]);
-  const [filteredRestaurant, setFilteredRestaurant] = useState([]);
+  const {
+    listOfRestaurants,
+    filteredRestaurant,
+    searchText,
+    setSearchText,
+    setFilteredRestaurant,
+  } = useListOfRestaurants();
 
-  //local state variable - super powerful variable
-  const [searchText, setSearchText] = useState("");
-
-  //Whenever state variables update, react triggers a reconciliation cycle(re-renders the component)
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://corsproxy.io/?url=https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9939595&lng=80.1706653&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+  console.log(listOfRestaurants);
+  const onlineStatus = useOnlineStatus();
+  if (onlineStatus === false) {
+    return (
+      <h1>
+        Looks like you are offline!! please ask Roshini for Wifi password 
+      </h1>
     );
-
-    const json = await data.json();
-    // console.log(
-    //   json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    // );
-
-    //optional chaining
-    setListOfRestaurants(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredRestaurant(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-  };
-
+  }
   //conditional rendering
-  // if(listOfRestaurants.length===0){
-  //   return <Shimmer />;
-  // }
-
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter">
-        <div className="search">
+      <div className="filter flex">
+        <div className="search m-2 p-2">
           <input
             type="text"
-            className="search-box"
+            className="border border-solid border-b-emerald-950"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           />
-          <button
-            className="search-btn"
+          <button 
+            className="search-btn px-2 py-1 ml-2 mr-1 bg-green-300 rounded-xl cursor-pointer"
             onClick={() => {
               const filteredRestaurant = listOfRestaurants.filter((res) =>
                 res.info.name.toLowerCase().includes(searchText.toLowerCase())
@@ -64,21 +48,28 @@ const Body = () => {
             Search
           </button>
         </div>
+        <div className="search m-2 px-2 py-1 flex items-center">
         <button
-          className="filter-btn"
+          className="filter-btn px-2 py-1 bg-blue-100 m-1 rounded-xl cursor-pointer"
           onClick={() => {
             const filteredList = listOfRestaurants.filter(
-              (res) => res.info.avgRating >= 4.2
+              (res) => res.info.avgRating >= 4.4
             );
             setFilteredRestaurant(filteredList);
           }}
         >
           Top Rated Restaurants
         </button>
+        </div>
       </div>
-      <div className="res-cointer">
+      <div className="flex flex-wrap">
         {filteredRestaurant.map((restaurant) => (
-          <Link key={restaurant.info.id} to= { "/restaurants/" +restaurant.info.id }><RestroCard  resData={restaurant}/> </Link>
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurants/" + restaurant.info.id}
+          >
+            <RestroCard resData={restaurant} />
+          </Link>
         ))}
       </div>
     </div>

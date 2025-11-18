@@ -1,4 +1,4 @@
-# Namaste React 
+# React Project Based Learnings.
 
 # Parcel https://parceljs.org/
 - Dev build
@@ -19,7 +19,7 @@
 - Tree Shaking - remove unused code.
 - Different dev and production build
 
-# Namaste Food 
+# SmartBite - Food Delivery Application 
 
 // Header
 //  -- Logo
@@ -102,8 +102,40 @@ import {Component} from "path"
 - Server Side Routing (older Websites)
 
 
+# Class Based component
+- Is a class which extend React.Component and it has a render method that returns some piece of JSX. ex:- UserClass.js
+- Functional Component: Is Basically a function that returns a piece of JSX. ex:- user.js
+- React.Component: Is a class which is given to us by react. we import this from javascript react package.
 
+Questions: 
+1. Why do we write super(props)??
+In class based components props can be passed into the constructor and then we need to write super(props) inside it, then it calls parent class and parent class set the child class, so that child class can use (this) keyword.
 
+State variables in class based components:
+1. In functional components we create it using useState() hook.
+2. But in class based components we does it differently. Whenever we create an instance of a class then constructor is called then the state was created.
+3. so constructor is the best place to create state variables.
+(Loading a class based component to the website -> I am creating an instance of that class.)
+4. Never update state variables directly.
+- class based components: first constructor is called -> render method is called -> componentDidMount is called.
 
+1. Single Responsibility Principle: Class/function/any identity should have a single responsibiliy.
+2. Modularity - Distrubuting code into smaller smaller pieces(modules) and keeping it modular makes the code testable, maintable and reusable.
+3. Custom hooks - create your own hooks. 
+Basically hooks are nothing but utility functions.
+Ex:- In this project i have created a useRestaurantMenu hook and kept it in the utils.
+When we create a hook, name should start with (use).
+4. When we start writing a custom hook we need to finilize the contract first, so we get basic idea of what to write.
+contract means - what is the input of that hook and what is the output of that hook.
+5. large scale applications -> Consists of 1000's of components -> we dont need 1000 files loading into our web page ---> So we do bundling, but if all files are bundled size of the file we load to the web page will be big(website might become slow), so we do chunking/ code splitting/ Dynamic bundling/ lazy loading/ on demand loading/ dynamic import to reduce the size of it.
+In development build the size is big compared to production build, because when it comes to production build parcel will do minification and reduce the size.
+6. Suspense - shows the fallback on webage until the component is ready to load.
+
+1. High order Components(javascript Function) : which takes a existing component, enhances it and returns a new component. 
+2. React applications have 2 important layers - Ui layer, Datalayer.
+   Ui layer - powered by Data layer(consists of all application data).
+   Ui layer - Takes jsx and keep it on the page
+   Data layer(Important) - Consists of State, Props, local variables.
+   Major part in react applications - handling this data layer - it makes app super performant.
 
 

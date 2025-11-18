@@ -21,15 +21,20 @@
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-react": "^7.27.1",
-    "parcel": "^2.15.4"
+    "@tailwindcss/postcss": "^4.1.15",
+    "autoprefixer": "^10.4.21",
+    "parcel": "^2.15.4",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.15"
   },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-headroom": "^3.2.1",
     "react-router": "^6.23.1",
     "react-router-dom": "^6.23.1"
   },
-  "browserlist": [
+  "browserslist": [
     "last 20 versions"
   ]
 }
