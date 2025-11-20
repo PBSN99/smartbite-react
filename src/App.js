@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
@@ -8,17 +9,30 @@ import Contact from "./components/Contact";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import userContext from "./utils/userContext";
 
 // Chunking, Code splitting, Dynamic Bundling, Lazy loading, on demand loading. dynamic import 
 
 const Grocery = lazy(() => import("./components/Grocery"));
 
 const AppLayout = () => {
+  const [userName, setUserName] = useState();
+
+useEffect(() =>{
+  //make an api call and send username and password
+  const data = {
+    name: "Bhavani P",
+  };
+  setUserName(data.name);
+}, []);
+
   return (
-    <div className="layout">
+    <userContext.Provider value = {{loggedInUser: userName}}>
+      <div className="layout">
       <Header />
       <Outlet />
     </div>
+    </userContext.Provider>
   );
 };
 
